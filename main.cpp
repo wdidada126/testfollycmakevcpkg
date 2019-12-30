@@ -19,7 +19,7 @@ int main() {
     folly::Promise<folly::fbstring> promise;
     folly::Future<folly::fbstring> future = promise.getSemiFuture().via(&executor);
     folly::Future<folly::Unit> unit = std::move(future).thenValue(print_uri);
-    promise.setValue("https://conan.io/");
+    promise.setValue("https://www.baidu.com/");
     std::move(unit).get();
     return EXIT_SUCCESS;
 }
