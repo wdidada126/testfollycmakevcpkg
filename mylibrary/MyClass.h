@@ -1,0 +1,14 @@
+//
+// Created by ibqo on 2019/12/31.
+//
+
+#ifndef TESTFOLLYCMAKEVCPKG_MYCLASS_H
+#define TESTFOLLYCMAKEVCPKG_MYCLASS_H
+
+
+class MyClass {
+
+};
+
+
+#endif //TESTFOLLYCMAKEVCPKG_MYCLASS_H

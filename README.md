@@ -40,3 +40,12 @@ make: *** [sample1_unittest] Error 2
 ```
 
 [Mac下Clion编译错误：Undefined symbols for architecture x86_64](https://blog.csdn.net/iamoldpan/article/details/78258107)
+
+cmake如何自动运行gtest测试
+
+https://www.blurredcode.com/2019/03/452/
+
+make test
+运行测试
+
+https://www.cnblogs.com/fnlingnzb-learner/p/7202236.html
