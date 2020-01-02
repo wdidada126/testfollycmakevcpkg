@@ -61,3 +61,37 @@ CMakeLists.txt add_execute失败
 - RpcServer
 - RpcClient
 使用了thrift folley wangle的例子
+
+```shell script
+vcpkg install thrift
+Your feedback is important to improve Vcpkg! Please take 3 minutes to complete our survey by running: vcpkg contact --survey
+The following packages will be built and installed:
+    thrift[core]:x64-osx
+Starting package 1/1: thrift:x64-osx
+Building package thrift[core]:x64-osx...
+-- Using cached /Users/ibqo/vcpkg/downloads/apache-thrift-acdd4226c210336e9e15eb812e5932a645fcd5ce.tar.gz
+-- Using source at /Users/ibqo/vcpkg/buildtrees/thrift/src/a645fcd5ce-616856a2c8
+-- Configuring x64-osx-dbg
+-- Configuring x64-osx-rel
+-- Building x64-osx-dbg
+CMake Error at scripts/cmake/vcpkg_execute_build_process.cmake:136 (message):
+    Command failed: /Users/ibqo/vcpkg/downloads/tools/cmake-3.14.0-osx/cmake-3.14.0-Darwin-x86_64/CMake.app/Contents/bin/cmake --build . --config Debug --target install -- -v
+    Working Directory: /Users/ibqo/vcpkg/buildtrees/thrift/x64-osx-dbg
+    See logs for more information:
+      /Users/ibqo/vcpkg/buildtrees/thrift/install-x64-osx-dbg-out.log
+
+Call Stack (most recent call first):
+  scripts/cmake/vcpkg_build_cmake.cmake:91 (vcpkg_execute_build_process)
+  scripts/cmake/vcpkg_install_cmake.cmake:24 (vcpkg_build_cmake)
+  ports/thrift/portfile.cmake:45 (vcpkg_install_cmake)
+  scripts/ports.cmake:94 (include)
+
+
+Error: Building package thrift:x64-osx failed with: BUILD_FAILED
+Please ensure you're using the latest portfiles with `.\vcpkg update`, then
+submit an issue at https://github.com/Microsoft/vcpkg/issues including:
+  Package: thrift:x64-osx
+  Vcpkg version: 2019.09.12-unknownhash
+
+Additionally, attach any relevant sections from the log files above.
+```
