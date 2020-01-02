@@ -49,3 +49,8 @@ make test
 运行测试
 
 https://www.cnblogs.com/fnlingnzb-learner/p/7202236.html
+
+子文件夹
+CMakeLists.txt add_execute失败
+
+
