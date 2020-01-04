@@ -15,7 +15,7 @@ add_executable(sample1_unittest samples/sample1_unittest.cc samples/sample1.cc)
 add_executable(sample2_unittest samples/sample2_unittest.cc samples/sample2.cc)
 add_executable(sample3_unittest samples/sample3_unittest.cc)
 add_executable(sample4_unittest samples/sample4_unittest.cc samples/sample4.cc)
-add_executable(sample5_unittest samples/sample3_unittest.cc samples/sample5_unittest.cc samples/sample1_unittest.cc)
+add_executable(sample5_unittest samples/sample3_unittest.cc samples/sample5_unittest.cc samples/sample1.cc)
 
 add_executable(TestConcurrentHashMap TestFolly/ConcurrentHashMap.cpp)
 

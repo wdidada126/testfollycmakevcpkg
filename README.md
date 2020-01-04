@@ -4,6 +4,9 @@
 
 `vcpkg install folly`
 
+folly版本
+2019.10.21.00
+
 [使用clion+cmake+vcpkg的开发现代的c++跨平台程序](https://www.cnblogs.com/Leo_wl/p/11555600.html)
 
 
@@ -95,3 +98,9 @@ submit an issue at https://github.com/Microsoft/vcpkg/issues including:
 
 Additionally, attach any relevant sections from the log files above.
 ```
+
+### cpp
+c++的class不能用public修饰
+
+#pragma once
+相当于只引用一次
