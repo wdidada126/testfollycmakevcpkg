@@ -10,7 +10,12 @@ add_library(mylibrary  mylibrary/MyClass.cpp mylibrary/MyClass.h)
 add_executable(testfollycmakevcpkg src/main.cpp)
 add_executable(RpcClient RpcClient.cpp)
 add_executable(RpcServer RpcServer.cpp)
+
+
 add_executable(testfollycmakevcpkgTest test/gtestmain.cpp)
+
+
+
 add_executable(sample1_unittest samples/sample1_unittest.cc samples/sample1.cc)
 add_executable(sample2_unittest samples/sample2_unittest.cc samples/sample2.cc)
 add_executable(sample3_unittest samples/sample3_unittest.cc)
@@ -23,8 +28,11 @@ add_executable(sample9_unittest samples/sample9_unittest.cc)
 add_executable(sample10_unittest samples/sample9_unittest.cc)
 
 add_executable(TestConcurrentHashMap TestFolly/ConcurrentHashMap.cpp)
+add_executable(AtomicHashMapTest TestFolly/AtomicHashMapTest.cpp)
+
 
 target_link_libraries(TestConcurrentHashMap PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
+target_link_libraries(AtomicHashMapTest PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
 
 
 find_package(folly CONFIG REQUIRED)

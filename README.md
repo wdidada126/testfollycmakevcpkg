@@ -1,11 +1,21 @@
 # README
 
+- folly
+-wangle
+- gtest
+
+
+### folly
 目前mac编译成功，目标Windows，Linux
 
 `vcpkg install folly`
 
 folly版本
 2019.10.21.00
+
+https://github.com/facebook/folly/blob/v2019.10.21.00/folly/docs/Overview.md
+
+- AtomicHashMap
 
 [使用clion+cmake+vcpkg的开发现代的c++跨平台程序](https://www.cnblogs.com/Leo_wl/p/11555600.html)
 
