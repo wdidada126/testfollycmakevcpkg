@@ -1,8 +1,13 @@
 # README
 
 - folly
--wangle
+- wangle
 - gtest
+
+找到菜单 File->Settings->Build,Execution->Toolchains 取消
+```shell script
+-DCMAKE-BUILD-TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake
+```
 
 
 ### folly
@@ -62,7 +67,7 @@ cmake如何自动运行gtest测试
 make test
 运行测试
 
-[cmake处理多源文件目录的方法](https://www.cnblogs.com/fnlingnzb-learner/p/7202236.html]
+[cmake处理多源文件目录的方法](https://www.cnblogs.com/fnlingnzb-learner/p/7202236.html）
 
 子文件夹
 CMakeLists.txt add_execute失败
@@ -114,3 +119,7 @@ c++的class不能用public修饰
 
 #pragma once
 相当于只引用一次
+
+移除gtest sample
+
+先熟悉gtest，在引用gtest测试folly

@@ -11,21 +11,9 @@ add_executable(testfollycmakevcpkg src/main.cpp)
 add_executable(RpcClient RpcClient.cpp)
 add_executable(RpcServer RpcServer.cpp)
 
-
 add_executable(testfollycmakevcpkgTest test/gtestmain.cpp)
 
 
-
-add_executable(sample1_unittest samples/sample1_unittest.cc samples/sample1.cc)
-add_executable(sample2_unittest samples/sample2_unittest.cc samples/sample2.cc)
-add_executable(sample3_unittest samples/sample3_unittest.cc)
-add_executable(sample4_unittest samples/sample4_unittest.cc samples/sample4.cc)
-add_executable(sample5_unittest samples/sample3_unittest.cc samples/sample5_unittest.cc samples/sample1.cc)
-add_executable(sample6_unittest samples/sample6_unittest.cc)
-add_executable(sample7_unittest samples/sample7_unittest.cc)
-add_executable(sample8_unittest samples/sample8_unittest.cc)
-add_executable(sample9_unittest samples/sample9_unittest.cc)
-add_executable(sample10_unittest samples/sample9_unittest.cc)
 
 add_executable(TestConcurrentHashMap TestFolly/ConcurrentHashMap.cpp)
 add_executable(AtomicHashMapTest TestFolly/AtomicHashMapTest.cpp)
@@ -45,23 +33,6 @@ target_link_libraries(testfollycmakevcpkgTest PRIVATE GTest::gtest GTest::gtest_
 
 add_test(AllTestsInMain testfollycmakevcpkgTest)
 
-target_link_libraries(sample1_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-target_link_libraries(sample2_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-target_link_libraries(sample3_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-target_link_libraries(sample4_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-target_link_libraries(sample5_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-target_link_libraries(sample6_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-target_link_libraries(sample7_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-target_link_libraries(sample8_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-target_link_libraries(sample9_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-target_link_libraries(sample10_unittest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
-
-add_test(AllTestsInMain sample1_unittest)
-add_test(AllTestsInMain sample2_unittest)
-add_test(AllTestsInMain sample3_unittest)
-add_test(AllTestsInMain sample4_unittest)
-add_test(AllTestsInMain sample5_unittest)
-add_test(AllTestsInMain sample6_unittest)  # 这个注释掉程序不报错
 
 find_package(wangle REQUIRED)
 target_link_libraries(RpcClient PRIVATE wangle::wangle)
