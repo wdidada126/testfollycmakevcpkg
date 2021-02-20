@@ -26,6 +26,7 @@ int main() {
     students.insert("Lilly", Student("Lilly", 2, "lilly@gmail.com"));
 
     for (const auto& st : students) {
+        std::cout<<st.first<<std::endl;
         st.second.printSelf();
     }
 }

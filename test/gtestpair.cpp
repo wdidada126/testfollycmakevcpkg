@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-int add(int a, int b){
+void add(){
 
     pair <string,double> product1 ("tomatoes",3.25);
     pair <string,double> product2;
@@ -20,13 +20,10 @@ int add(int a, int b){
     cout <<"The price of "<< product1.first <<" is $"<< product1.second <<"\n";
     cout <<"The price of "<< product2.first <<" is $"<< product2.second <<"\n";
     cout <<"The price of "<< product3.first <<" is $"<< product3.second <<"\n";
-
-
-    return a+b;
 }
 
 TEST(test1, c1){
-EXPECT_EQ(3, add(1,2));
+    add();
 }
 
 GTEST_API_ int main(int argc, char** argv){
