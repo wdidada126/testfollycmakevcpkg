@@ -14,16 +14,16 @@ add_executable(RpcServer RpcServer.cpp)
 add_executable(testfollycmakevcpkgTest test/gtestmain.cpp)
 
 
-
+find_package(folly CONFIG REQUIRED)
 add_executable(TestConcurrentHashMap TestFolly/ConcurrentHashMap.cpp)
-add_executable(AtomicHashMapTest TestFolly/AtomicHashMapTest.cpp)
+#add_executable(AtomicHashMapTest TestFolly/AtomicHashMapTest.cpp)# undefine reference
 
 
 target_link_libraries(TestConcurrentHashMap PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
-target_link_libraries(AtomicHashMapTest PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
+#target_link_libraries(AtomicHashMapTest PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
 
 
-find_package(folly CONFIG REQUIRED)
+
 target_link_libraries(testfollycmakevcpkg PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
 
 enable_testing()

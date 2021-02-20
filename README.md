@@ -1,5 +1,8 @@
 # README
 
+NoBarrier_AtomicIncrement
+https://www.cnblogs.com/gistao/p/4583734.html
+
 - folly
 - wangle
 - gtest
