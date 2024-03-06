@@ -27,7 +27,15 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: |
         sudo apt update
-        sudo apt install odb libodb-dev -y
+        sudo apt install linux-libc-dev autoconf-archive -y
+        git clone https://github.com/microsoft/vcpkg.git
+        cd vcpkg
+        git checkout 2023.12.12
+        chmod +x ./bootstrap-vcpkg.sh
+        ./bootstrap-vcpkg.sh
+        ./vcpkg integrate install
+        cd ../
+        ./vcpkg/vcpkg install folly gtest
         cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
