@@ -230,3 +230,25 @@ c++的class不能用public修饰
 移除gtest sample
 
 先熟悉gtest，在引用gtest测试folly
+
+
+## gtest
+gtest例子
+cmake:
+add_executable()
+
+enable_testing()
+
+find_package(GTest CONFIG REQUIRED)
+target_link_libraries(gtestmethods PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+
+源代码：
+```c++
+#include "gtest/gtest.h"
+#define TEST(test_suite_name, test_name) GTEST_TEST(test_suite_name, test_name)
+#define EXPECT_EQ(val1, val2)
+
+    testing::InitGoogleTest(&argc, argv);
+```
+
+namespace testing

@@ -10,7 +10,7 @@ add_executable(testfollycmakevcpkg src/main.cpp)
 #add_executable(RpcClient RpcClient.cpp)
 #add_executable(RpcServer RpcServer.cpp)
 
-add_executable(gtestmain test/gtestmain.cpp)
+add_executable(gtestmethods test/gtestmain.cpp)
 add_executable(gtestpairTest test/gtestpair.cpp)
 
 
@@ -33,7 +33,7 @@ target_link_libraries(testfollycmakevcpkg PRIVATE Folly::folly Folly::folly_deps
 enable_testing()
 
 find_package(GTest CONFIG REQUIRED)
-target_link_libraries(gtestmain PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+target_link_libraries(gtestmethods PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 target_link_libraries(gtestpairTest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 
 add_test(AllTestsInMain testfollycmakevcpkgTest)
