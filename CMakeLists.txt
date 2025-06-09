@@ -30,6 +30,12 @@ target_link_libraries(TestConcurrentHashMap PRIVATE folly::folly)
 
 
 target_link_libraries(testfollycmakevcpkg PRIVATE folly::folly)
+add_executable(f_a_list src/f_a_list.cpp)
+target_link_libraries(f_a_list PRIVATE folly::folly)
+add_executable(clh_example src/clh_example.cpp)
+target_link_libraries(clh_example PRIVATE folly::folly)
+add_executable(folly_d_mutex src/folly_d_mutex.cpp)
+target_link_libraries(folly_d_mutex PRIVATE folly::folly)
 
 enable_testing()
 
