@@ -2,13 +2,14 @@
 #include <thread>
 #include <vector>
 #include <iostream>
+#include <mutex>
 
 folly::DistributedMutex mutex;
 int shared_counter = 0;
 
 void worker(int id, int iterations) {
     for (int i = 0; i < iterations; ++i) {
-        folly::DistributedMutex::Lock l(mutex);
+        std::unique_lock lock(mutex);  // ✅ 使用标准库风格加锁
         ++shared_counter;
     }
     std::cout << "Thread " << id << " done." << std::endl;

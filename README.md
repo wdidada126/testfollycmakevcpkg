@@ -252,3 +252,26 @@ target_link_libraries(gtestmethods PRIVATE GTest::gtest GTest::gtest_main GTest:
 ```
 
 namespace testing
+
+## clh
+
+你尝试包含的是一个 Folly 内部头文件：
+
+Cpp
+#include <folly/synchronization/detail/CLHQueue.h>
+而这个文件并不是 Folly 的公开 API，它属于 Folly 源码中的 内部实现细节（detail namespace），因此在你通过包管理器（如 vcpkg、conan 或系统安装）安装的 Folly 库中，并不会被导出。
+
+✅ 正确做法：使用 Folly 提供的公共接口
+🚫 不要直接包含 detail 头文件！
+Folly 的官方文档和社区建议是：不要依赖 detail/ 中的任何类或函数，它们可能会在版本更新时被删除或重构。
+
+🔍 查看是否真的有 CLHQueue 可用？
+截至当前（2025年6月），Folly 并没有提供公开的 CLH 队列接口。也就是说：
+
+CLHQueue.h 是内部测试或实现文件
+它并不属于 Folly 的 public headers
+所以你不能在你的项目中使用它
+
+folly::MPMCQueue<T>	多生产者多消费者无锁队列
+folly::ProducerConsumerQueue<T>	单生产者单消费者队列（更快）
+folly::Synchronized<T>	封装 std::mutex + RAII，简化同步

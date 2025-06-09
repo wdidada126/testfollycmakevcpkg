@@ -1,45 +1,54 @@
-#include <folly/concurrency/AtomicLinkedList.h>
-#include <thread>
-#include <vector>
+#include <atomic>
 #include <iostream>
+#include <thread>
 
-// 定义链表节点类型
-struct Task {
-    int id;
+template<typename T>
+struct AtomicNode {
+    T value;
+    std::atomic<AtomicNode*> next;
+
+    explicit AtomicNode(T v) : value(v), next(nullptr) {}
 };
 
-folly::AtomicLinkedList<Task> taskList;
-
-void producer(int start, int count) {
-    for (int i = start; i < start + count; ++i) {
-        Task* task = new Task{.id = i};
-        taskList.pushHead(task);
+template<typename T>
+class SimpleAtomicList {
+public:
+    void pushHead(T value) {
+        auto node = new AtomicNode<T>(value);
+        AtomicNode<T>* oldHead = head.load();
+        do {
+            node->next.store(oldHead, std::memory_order_relaxed);
+        } while (!head.compare_exchange_weak(oldHead, node));
     }
-}
 
-void consumer() {
-    Task* task = nullptr;
-    while ((task = taskList.popHead())) {
-        std::cout << "Consuming task ID: " << task->id << std::endl;
-        delete task;
+    void traverse() {
+        auto current = head.load();
+        while (current) {
+            std::cout << current->value << " ";
+            current = current->next.load();
+        }
+        std::cout << std::endl;
     }
+
+private:
+    std::atomic<AtomicNode<T>*> head{nullptr};
+};
+
+// 使用示例
+void producer(SimpleAtomicList<int>& list) {
+    for (int i = 0; i < 5; ++i)
+        list.pushHead(i);
 }
 
 int main() {
-    const int num_tasks_per_producer = 10;
-    const int num_producers = 3;
+    SimpleAtomicList<int> list;
 
-    std::vector<std::thread> producers;
-    for (int i = 0; i < num_producers; ++i) {
-        producers.emplace_back(producer, i * num_tasks_per_producer, num_tasks_per_producer);
-    }
+    std::thread t1(producer, std::ref(list));
+    std::thread t2(producer, std::ref(list));
 
-    for (auto& t : producers) {
-        t.join();
-    }
+    t1.join();
+    t2.join();
 
-    // 消费所有任务
-    consumer();
-
+    list.traverse();  // 输出可能是乱序的，因为并发 pushHead
     return 0;
 }
