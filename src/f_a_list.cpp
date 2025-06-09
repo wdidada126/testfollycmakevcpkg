@@ -1,6 +1,7 @@
 #include <atomic>
 #include <iostream>
 #include <thread>
+#include <folly/AtomicLinkedList.h>
 
 template<typename T>
 struct AtomicNode {
@@ -50,5 +51,7 @@ int main() {
     t2.join();
 
     list.traverse();  // 输出可能是乱序的，因为并发 pushHead
+
+    AtomicLinkedList a;
     return 0;
 }

@@ -38,6 +38,9 @@ jobs:
           sed -i 's/gnu14/gnu17/g' ~/.conan2/profiles/default
           echo "conan2 profiles"
           cat ~/.conan2/profiles/default
+          conan remote update conancenter --url https://center2.conan.io
+          echo "conan remote list"
+          conan remote list
 
       - name: conan build
         run: |

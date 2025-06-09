@@ -275,3 +275,8 @@ CLHQueue.h 是内部测试或实现文件
 folly::MPMCQueue<T>	多生产者多消费者无锁队列
 folly::ProducerConsumerQueue<T>	单生产者单消费者队列（更快）
 folly::Synchronized<T>	封装 std::mutex + RAII，简化同步
+
+https://fossies.org/dox/folly-v2025.06.02.00/
+
+
+https://fossies.org/dox/folly-v2025.06.02.00/classes.html
