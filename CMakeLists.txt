@@ -21,15 +21,15 @@ add_executable(TestConcurrentHashMap TestFolly/ConcurrentHashMap.cpp)
 
 
 #add_executable(FBStringBenchmark TestFolly/FBStringBenchmark.cpp)# TestFolly/FBStringBenchmark.cpp:81:10: fatal error: 'folly/test/FBStringTestBenchmarks.cpp.h' file not found
-#target_link_libraries(FBStringBenchmark PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
+#target_link_libraries(FBStringBenchmark PRIVATE folly::folly)
 
 
-target_link_libraries(TestConcurrentHashMap PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
-#target_link_libraries(AtomicHashMapTest PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
+target_link_libraries(TestConcurrentHashMap PRIVATE folly::folly)
+#target_link_libraries(AtomicHashMapTest PRIVATE folly::folly)
 
 
 
-target_link_libraries(testfollycmakevcpkg PRIVATE Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
+target_link_libraries(testfollycmakevcpkg PRIVATE folly::folly)
 
 enable_testing()
 
