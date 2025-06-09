@@ -1,4 +1,4 @@
-name: conan2 ubuntu-latest Debug
+name: xmake ubuntu-latest Debug
 
 on:
   push:
