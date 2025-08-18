@@ -30,7 +30,7 @@ jobs:
           cat /proc/cpuinfo
           sudo apt update
           sudo apt install -y python3-pip
-          pip3 install conan==2.6.0
+          pip3 install conan==2.12.0
           conan profile detect
           echo "conan2 profiles"
           cat ~/.conan2/profiles/default
