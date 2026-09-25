@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.18)
 project(testfollycmakevcpkg)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -16,6 +16,9 @@ add_executable(gtestpairTest test/gtestpair.cpp)
 
 
 find_package(folly CONFIG REQUIRED)
+if(NOT TARGET folly::folly AND TARGET Folly::folly)
+    add_library(folly::folly ALIAS Folly::folly)
+endif()
 add_executable(TestConcurrentHashMap TestFolly/ConcurrentHashMap.cpp)
 #add_executable(AtomicHashMapTest TestFolly/AtomicHashMapTest.cpp)# undefined reference
 
@@ -40,6 +43,9 @@ target_link_libraries(folly_d_mutex PRIVATE folly::folly)
 enable_testing()
 
 find_package(GTest CONFIG REQUIRED)
+if(NOT TARGET gtest::gtest AND TARGET GTest::gtest)
+    add_library(gtest::gtest ALIAS GTest::gtest)
+endif()
 target_link_libraries(gtestmethods PRIVATE gtest::gtest)
 target_link_libraries(gtestpairTest PRIVATE gtest::gtest)
 
