@@ -34,8 +34,7 @@ target("testfolly")
     add_files("src/clh_example.cpp")
     add_packages("folly")
     before_build(function (target)
-        -- 设置 MySQL 选项为 fa  lse
-        add_defines("DROGON_USE_MYSQL=OFF")
+        target:add("defines", "DROGON_USE_MYSQL=OFF")
     end)
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
