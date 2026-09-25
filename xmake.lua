@@ -4,6 +4,29 @@ set_languages("c++17")
 add_includedirs("include")
 
 add_rules("mode.debug", "mode.release")
+
+package("libaio")
+    set_homepage("https://gitlab.kernel.org/pub/scm/libs/libaio/libaio.git")
+    set_description("Linux-native asynchronous I/O access library")
+    set_license("LGPL-2.1-or-later")
+
+    set_urls("https://deb.debian.org/debian/pool/main/liba/libaio/libaio_$(version).orig.tar.gz",
+             "https://mirrors.aliyun.com/debian/pool/main/liba/libaio/libaio_$(version).orig.tar.gz")
+    add_versions("0.3.113", "2c44d1c5fd0d43752287c9ae1eb9c023f04ef848ea8d4aafa46e9aedb678200b")
+
+    add_configs("shared", {description = "Build shared library.", default = true, type = "boolean", readonly = true})
+
+    on_install("linux", function (package)
+        io.replace("Makefile", "prefix=/usr", "prefix=" .. package:installdir())
+        import("package.tools.make").make(package, {})
+        import("package.tools.make").make(package, {"install"})
+    end)
+
+    on_test(function (package)
+        assert(package:has_cfuncs("io_setup", {includes = "libaio.h"}))
+    end)
+package_end()
+
 add_requires("folly 2024.10.07")
 
 target("testfolly")
