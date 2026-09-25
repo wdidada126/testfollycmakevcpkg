@@ -22,12 +22,17 @@ endif()
 add_executable(TestConcurrentHashMap TestFolly/ConcurrentHashMap.cpp)
 #add_executable(AtomicHashMapTest TestFolly/AtomicHashMapTest.cpp)# undefined reference
 
+# folly::AtomicIntrusiveHashMap 不存在于开源 folly（见 TestFolly/AtomicIntrusiveHashMap.md），
+# 实测其真实存在的家族成员 AtomicIntrusiveLinkedList
+add_executable(atomic_intrusive_list_test TestFolly/AtomicIntrusiveHashMapTest.cpp)
+
 
 #add_executable(FBStringBenchmark TestFolly/FBStringBenchmark.cpp)# TestFolly/FBStringBenchmark.cpp:81:10: fatal error: 'folly/test/FBStringTestBenchmarks.cpp.h' file not found
 #target_link_libraries(FBStringBenchmark PRIVATE folly::folly)
 
 
 target_link_libraries(TestConcurrentHashMap PRIVATE folly::folly)
+target_link_libraries(atomic_intrusive_list_test PRIVATE folly::folly)
 #target_link_libraries(AtomicHashMapTest PRIVATE folly::folly)
 
 
@@ -46,10 +51,13 @@ find_package(GTest CONFIG REQUIRED)
 if(NOT TARGET gtest::gtest AND TARGET GTest::gtest)
     add_library(gtest::gtest ALIAS GTest::gtest)
 endif()
-target_link_libraries(gtestmethods PRIVATE gtest::gtest)
-target_link_libraries(gtestpairTest PRIVATE gtest::gtest)
+# tests define their own main (do NOT add GTEST_API_ to it: it expands to dllimport on MSVC)
+target_link_libraries(gtestmethods PRIVATE GTest::gtest)
+target_link_libraries(gtestpairTest PRIVATE GTest::gtest)
 
 add_test(AllTestsInMain gtestmethods)
+add_test(AllTestsInPair gtestpairTest)
+add_test(FollyIntrusiveLinkedList atomic_intrusive_list_test)
 
 
 #find_package(wangle REQUIRED)

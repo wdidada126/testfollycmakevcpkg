@@ -280,3 +280,85 @@ https://fossies.org/dox/folly-v2025.06.02.00/
 
 
 https://fossies.org/dox/folly-v2025.06.02.00/classes.html
+
+## 结论
+
+**`folly::AtomicIntrusiveHashMap` 在开源 folly 中不存在**（当前版本和 main 分支均无此容器），
+它属于"看着像 folly 风格、但实际查无此 API"的名字（和本仓库之前踩过的 `folly::AtomicLinkedList`
+模板名坑是同类问题）。
+
+## 证据链（全部实测）
+
+1. **本机安装包**：`vcpkg_installed/x64-windows/include/folly/` 下全量检索
+   `grep -rl "IntrusiveHashMap"` → **0 命中**；`folly/container/` 目录里只有
+   `IntrusiveHeap.h`、`IntrusiveList.h`，无任何 Atomic* 哈希表。
+2. **vcpkg 解包源码树**（`buildtrees/folly/src/5.03.31.00-*/`，比安装目录更全）：
+   全树 grep `AtomicIntrusiveHashMap` → **0 命中**。
+3. **GitHub 上游 main 分支**（`gh api repos/facebook/folly/contents/folly/container`）：
+   无 `AtomicIntrusiveHashMap.h`；`folly/docs/` 里也没有对应文档（只有 `AtomicHashMap.md`）。
+4. **GitHub 全仓库 commit 搜索**（search/commits?q=repo:facebook/folly+AtomicIntrusiveHashMap
+   及更宽泛的 IntrusiveHashMap）→ **0 条**。
+5. **Meta 工程博客** engineering.fb.com 站内搜索 → "Nothing Found"。
+   （网络上流传的"Introducing AtomicIntrusiveHashMap"记忆实际对应的是开源过的
+   **AtomicUnorderedMap** 与 **F14** 系列，不是这个名字。）
+
+> 教训延续：凡是从 AI 回答/二手博客里来的 folly API 名，先
+> `find vcpkg_installed/x64-windows/include/folly -iname "*关键词*"` 验一下再写代码。
+
+## 真实存在、功能上最接近的东西
+
+| API | 头文件 | 是什么 |
+|---|---|---|
+| `AtomicIntrusiveLinkedListHook<T>` + `AtomicIntrusiveLinkedList<T, &T::hook>` | `folly/AtomicIntrusiveLinkedList.h` | 无锁（CAS 头插）侵入式**单向**链表；"Atomic + Intrusive" 家族的正主 |
+| `folly::IntrusiveList<T, Hook1, Hook2...>` | `folly/container/IntrusiveList.h` | 非线程安全、侵入式双向链表（boost Intrusive 风格），LRU 常用 |
+| `folly::ConcurrentHashMap` | `folly/concurrency/ConcurrentHashMap.h` | 线程安全哈希表（非侵入式），本仓库 `TestFolly/ConcurrentHashMap.cpp` 已测 |
+| `folly::AtomicHashMap` / `AtomicUnorderedMap` | `folly/AtomicHashMap.h` 等 | 预分配容量、写多读少的一次性哈希表（Windows 下 AtomicHashMapTest 曾链接失败，已注释） |
+| `folly::EvictingCacheMap` | `folly/container/EvictingCacheMap.h` | 带 LRU 逐出的非线程安全 map |
+
+如果目标是"无锁 + 侵入式 + 哈希查找"，开源 folly 的组合拳是：
+**分桶数组（自己写）+ 每桶一个 `AtomicIntrusiveLinkedList`**（这正是该链表注释里的经典用法：
+任务队列/回收栈/与 F14 配合做对象池）。
+
+## AtomicIntrusiveLinkedList API 速查（本次实测通过）
+
+```cpp
+class Node {
+ public:
+  folly::AtomicIntrusiveLinkedListHook<Node> hook;  // 侵入点：只有一个 next 指针
+  int id;
+};
+
+folly::AtomicIntrusiveLinkedList<Node, &Node::hook> list;  // 模板参数：成员指针
+
+list.insertHead(&a);        // CAS 头插；返回 true 表示插入后链表只有它自己
+                            // 前置要求：a.hook.next == nullptr（重复插入会 assert）
+list.unsafeHead();          // 当前头指针（并发修改下可能已失效，故名 unsafe）
+list.empty();               // 快照判断
+list.sweep(cb);             // 原子摘链，按【尾→头】（=插入顺序 FIFO）回调；循环直到清空
+list.sweepOnce(cb);         // 只摘一轮，返回是否非空；并发消费者轮询用这个
+list.reverseSweep(cb);      // 原子摘一轮，按【头→尾】LIFO 回调
+list.spliceAll();           // 元素整体挪给一个新链表（返回右值），原链表变空
+list.reverseSweepAndAssign(std::move(other), cb); // 换入新内容+换出旧内容回调，
+                                                  // move 赋值操作符的安全替代
+```
+
+关键约定与坑：
+
+1. **析构时链表必须是空的**（debug 下 assert），所以程序退出前要 sweep 干净——
+   这也是它没有 move 赋值操作符的原因。
+2. 元素被摘链后 `hook.next` 自动复位为 `nullptr`，可以再次 `insertHead`。
+3. 容器**完全不分配内存**：节点生命周期自己管（对象池/静态数组最合适）。
+4. `sweep` 回调里不要再去操作同一个链表（无意义且绕）。
+
+## 测试文件
+
+`TestFolly/AtomicIntrusiveHashMapTest.cpp`（目标名 `atomic_intrusive_list_test`）：
+基本顺序 / reverseSweep LIFO 与钩子复位 / 4线程×10000 并发插入+并发 sweepOnce 不丢不重 / spliceAll。
+运行方式：
+
+```
+cmake --build --preset vcpkg-debug --target atomic_intrusive_list_test
+build-vcpkg\Debug\atomic_intrusive_list_test.exe
+```
+
+实测结果（2026-09-25）：`pass=13 fail=0`。

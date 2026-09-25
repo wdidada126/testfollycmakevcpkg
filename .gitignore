@@ -2,4 +2,7 @@ cmake-build-debug
 .idea
 CMakeUserPresets.json
 build
+build-vcpkg
+vcpkg_installed
 .xmake
+Testing
