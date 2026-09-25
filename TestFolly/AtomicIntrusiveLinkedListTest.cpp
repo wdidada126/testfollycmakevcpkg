@@ -1,4 +1,4 @@
-// TestFolly/AtomicIntrusiveHashMapTest.cpp
+// TestFolly/AtomicIntrusiveLinkedListTest.cpp
 //
 // 实测结论（2026-09-25）：folly::AtomicIntrusiveHashMap 这个容器在开源 folly 中【不存在】。
 // 证据链见同目录 AtomicIntrusiveHashMap.md。直接写下面的 include 会得到：

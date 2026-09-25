@@ -22,9 +22,9 @@ endif()
 add_executable(TestConcurrentHashMap TestFolly/ConcurrentHashMap.cpp)
 #add_executable(AtomicHashMapTest TestFolly/AtomicHashMapTest.cpp)# undefined reference
 
-# folly::AtomicIntrusiveHashMap 不存在于开源 folly（见 TestFolly/AtomicIntrusiveHashMap.md），
+# folly::AtomicIntrusiveHashMap 不存在于开源 folly（调查报告见 README.md 对应章节），
 # 实测其真实存在的家族成员 AtomicIntrusiveLinkedList
-add_executable(atomic_intrusive_list_test TestFolly/AtomicIntrusiveHashMapTest.cpp)
+add_executable(atomic_intrusive_linked_list_test TestFolly/AtomicIntrusiveLinkedListTest.cpp)
 
 
 #add_executable(FBStringBenchmark TestFolly/FBStringBenchmark.cpp)# TestFolly/FBStringBenchmark.cpp:81:10: fatal error: 'folly/test/FBStringTestBenchmarks.cpp.h' file not found
@@ -32,7 +32,7 @@ add_executable(atomic_intrusive_list_test TestFolly/AtomicIntrusiveHashMapTest.c
 
 
 target_link_libraries(TestConcurrentHashMap PRIVATE folly::folly)
-target_link_libraries(atomic_intrusive_list_test PRIVATE folly::folly)
+target_link_libraries(atomic_intrusive_linked_list_test PRIVATE folly::folly)
 #target_link_libraries(AtomicHashMapTest PRIVATE folly::folly)
 
 
@@ -57,7 +57,7 @@ target_link_libraries(gtestpairTest PRIVATE GTest::gtest)
 
 add_test(AllTestsInMain gtestmethods)
 add_test(AllTestsInPair gtestpairTest)
-add_test(FollyIntrusiveLinkedList atomic_intrusive_list_test)
+add_test(AtomicIntrusiveLinkedList atomic_intrusive_linked_list_test)
 
 
 #find_package(wangle REQUIRED)

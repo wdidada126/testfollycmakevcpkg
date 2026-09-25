@@ -352,13 +352,13 @@ list.reverseSweepAndAssign(std::move(other), cb); // 换入新内容+换出旧�
 
 ## 测试文件
 
-`TestFolly/AtomicIntrusiveHashMapTest.cpp`（目标名 `atomic_intrusive_list_test`）：
+`TestFolly/AtomicIntrusiveLinkedListTest.cpp`（目标名 `atomic_intrusive_linked_list_test`）：
 基本顺序 / reverseSweep LIFO 与钩子复位 / 4线程×10000 并发插入+并发 sweepOnce 不丢不重 / spliceAll。
 运行方式：
 
 ```
-cmake --build --preset vcpkg-debug --target atomic_intrusive_list_test
-build-vcpkg\Debug\atomic_intrusive_list_test.exe
+cmake --build --preset vcpkg-debug --target atomic_intrusive_linked_list_test
+build-vcpkg\Debug\atomic_intrusive_linked_list_test.exe
 ```
 
 实测结果（2026-09-25）：`pass=13 fail=0`。
