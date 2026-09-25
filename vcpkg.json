@@ -1,0 +1,8 @@
+{
+  "name": "testfollycmakevcpkg",
+  "version": "1.0.0",
+  "dependencies": [
+    "folly",
+    "gtest"
+  ]
+}
