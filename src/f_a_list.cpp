@@ -52,6 +52,5 @@ int main() {
 
     list.traverse();  // 输出可能是乱序的，因为并发 pushHead
 
-    AtomicLinkedList a;
     return 0;
 }
